@@ -855,7 +855,7 @@ svg path {
     height: 600px;
     margin: 30px auto;
     background-color: #efefef;
-    overflow: hidden
+    /**overflow: hidden**/
 }
 
 @media (max-width: 768px) {

@@ -1,13 +1,14 @@
 <?php
+
 use PHPMailer\PHPMailer\PHPMailer;
-//use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 //Load Composer's autoloader
 require 'vendor/autoload.php';
-require 'path/to/PHPMailer/src/Exception.php';
-require 'path/to/PHPMailer/src/PHPMailer.php';
-require 'path/to/PHPMailer/src/SMTP.php';
+require 'vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require 'vendor/phpmailer/phpmailer/src/SMTP.php';
+require 'vendor/phpmailer/phpmailer/src/Exception.php';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $email = $_POST['email'];
@@ -30,12 +31,12 @@ try {
    //$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
    
     //Recipients
-    $mail->setFrom('from@example.com', 'Mailer');
-    $mail->addAddress('joe@example.net', 'Joe User');     //Add a recipient
-    $mail->addAddress('ellen@example.com');               //Name is optional
-    $mail->addReplyTo('info@example.com', 'Information');
-    $mail->addCC('cc@example.com');
-    $mail->addBCC('bcc@example.com');
+    $mail->setFrom('400b72471cf924', 'x_text');
+    $mail->addAddress($_POST['email']);     //Add a recipient
+  //  $mail->addAddress('ellen@example.com');               //Name is optional
+   // $mail->addReplyTo('info@example.com', 'Information');
+  //  $mail->addCC('cc@example.com');
+   // $mail->addBCC('bcc@example.com');
 
     //Attachments
     //$mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
@@ -43,16 +44,14 @@ try {
 
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
-    $mail->Subject = $sujet;
-    $mail->WordWrap   = 50; 	
-    $mail->Body    = $message;
-    $mail->AltBody = $message;
-   
+    $mail->Subject = $_POST['subject'];
+    $mail->WordWrap = 50;
+    $mail->Body    = $_POST['message'];
+    $mail->AltBody = $_POST['message'];
 
-   $mail->send(); 
-    echo 'Email envoyé avec succès';
+    $mail->send();
+    echo 'Message has been sent';
 } catch (Exception $e) {
-    echo 'erreur est survenu lors de l : {$mail->ErrorInfo}';
-   }
-
+    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+}
 ?>

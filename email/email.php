@@ -1,7 +1,6 @@
 <?php
-
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
+//use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 //Load Composer's autoloader
@@ -9,6 +8,12 @@ require 'vendor/autoload.php';
 require 'path/to/PHPMailer/src/Exception.php';
 require 'path/to/PHPMailer/src/PHPMailer.php';
 require 'path/to/PHPMailer/src/SMTP.php';
+
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    $email = $_POST['email'];
+    $sujet = $_POST['sujet'];
+    $message = $_POST['message'];
+}
 
 //Create an instance; passing `true` enables exceptions
 $mail = new PHPMailer(true);
@@ -38,15 +43,16 @@ try {
 
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
-    $mail->Subject = $_POST ['subject'];
+    $mail->Subject = $sujet;
     $mail->WordWrap   = 50; 	
-    $mail->Body    = $_POST ['message'];
-    $mail->AltBody = $_POST ['message'];
+    $mail->Body    = $message;
+    $mail->AltBody = $message;
    
 
-   if (!$mail->send()) {
-    echo $mail-> errorInfo; 
-   } else {
-    echo 'Message bien envoye';
+   $mail->send(); 
+    echo 'Email envoyé avec succès';
+} catch (Exception $e) {
+    echo 'erreur est survenu lors de l : {$mail->ErrorInfo}';
    }
+
 ?>
